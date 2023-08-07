@@ -26,7 +26,7 @@ const ShowList = () => {
   }, []);
 
   return (
-    <ul className="grid grid-cols-4 gap-x-6 gap-y-8 my-10">
+    <ul className="grid grid-cols-4 gap-x-6 gap-y-8 my-14 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
       {shows.map((item) => {
         const show = item.show;
 

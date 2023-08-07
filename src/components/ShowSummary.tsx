@@ -96,7 +96,7 @@ const ShowSummary = () => {
         <Modal.Body>
           <div>
             <div className="mb-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between max-sm:flex-col max-sm:items-start max-sm:mb-3 max-sm:gap-1">
                 <h3 className="text-lg text-gray-600 font-medium">
                   Book ticket for{' '}
                   <span className="text-teal-700">{show.name}</span>
@@ -115,7 +115,7 @@ const ShowSummary = () => {
               </p>
             </div>
 
-            <form className="grid grid-cols-2 gap-4">
+            <form className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
               <input
                 required
                 className="text-sm"
@@ -159,29 +159,34 @@ const ShowSummary = () => {
         </Modal.Footer>
       </Modal>
 
-      <div className="mt-16 mb-10">
+      <div className="mt-16 mb-10 max-sm:mt-10">
         <button
           onClick={backHandler}
-          className="flex items-center gap-2 mb-8 px-2 py-1 shadow-lg hover:shadow-md transition-all"
+          className="flex items-center gap-2 mb-8 px-2 py-1 shadow-lg hover:shadow-md transition-all rounded-md"
         >
           <ArrowLeftIcon className="w-4 h-4" />
           <span>Back</span>
         </button>
 
-        <div className="grid grid-cols-[30fr_70fr] gap-x-12">
-          <div>
-            <img className="w-full" src={show.image?.original} alt="" />
-          </div>
+        <div className="grid grid-cols-[30fr_70fr] gap-x-12 max-lg:grid-cols-[40fr_60fr] max-md:grid-cols-1 max-md:gap-y-7">
+          <img
+            className="w-full max-md:w-[60%] max-sm:w-3/4 rounded-md shadow-md"
+            src={show.image?.original}
+            alt={show.name}
+          />
+
           <div className="flex flex-col">
             <h3 className="text-2xl text-teal-600 font-medium">{show.name}</h3>
 
-            <div className="mt-5 grid grid-cols-2 gap-y-2">
+            <div className="mt-5 grid grid-cols-2 gap-y-2 gap-x-3 max-sm:grid-cols-1 max-sm:gap-y-1 max-sm:mt-3">
               <p className="text-gray-700 font-medium">
                 Language: <span className="font-normal">{show.language}</span>
               </p>
               <p className="text-gray-700 font-medium">
                 Rating:
-                <span className="font-normal">{show.rating?.average}</span>
+                <span className="font-normal">
+                  {show.rating?.average ? show.rating?.average : ' N/A'}
+                </span>
               </p>
               <p className="text-gray-700 font-medium">
                 Premiered:
@@ -206,7 +211,7 @@ const ShowSummary = () => {
 
             <button
               onClick={bookTicketHandler}
-              className="self-end mt-auto bg-orange-600 px-3 py-1 text-white font-medium"
+              className="self-end mt-auto bg-orange-600 px-3 py-1 text-white font-medium max-lg:mt-4 rounded-md"
             >
               Book Ticket
             </button>

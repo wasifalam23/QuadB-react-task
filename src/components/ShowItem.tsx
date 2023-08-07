@@ -22,7 +22,7 @@ const ShowItem: React.FC<Props> = (props) => {
   };
 
   return (
-    <li className="bg-orange-50">
+    <li className="bg-orange-50 rounded-md overflow-hidden">
       <div>
         <img className="w-full h-96" src={props.image} alt={props.name} />
 
