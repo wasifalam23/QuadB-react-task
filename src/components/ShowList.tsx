@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StarIcon } from '@heroicons/react/24/solid';
 import ShowItem from './ShowItem';
+import { toast } from 'react-hot-toast';
 
 const ShowList = () => {
   const [shows, setShows] = useState<any[]>([]);
-  console.log(shows);
 
   useEffect(() => {
     const fetchShows = async () => {
+      const loadingToast = toast.loading('Loading shows...');
       try {
         const result = await axios.get(
           'https://api.tvmaze.com/search/shows?q=all'
@@ -17,6 +17,8 @@ const ShowList = () => {
         setShows(result.data);
       } catch (err) {
         console.log(err);
+      } finally {
+        toast.dismiss(loadingToast);
       }
     };
 

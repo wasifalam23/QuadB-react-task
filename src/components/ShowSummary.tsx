@@ -18,8 +18,6 @@ const ShowSummary = () => {
   const [userEmail, setUserEmail] = useState<string>('');
   const [userPhone, setUserPhone] = useState<string>('');
 
-  console.log(show);
-
   const { name } = useParams();
   const navigate = useNavigate();
 
@@ -27,6 +25,7 @@ const ShowSummary = () => {
 
   useEffect(() => {
     const fetchShow = async () => {
+      const loadingToast = toast.loading('Loading...');
       try {
         const result = await axios.get(
           `https://api.tvmaze.com/singlesearch/shows?q=${name}`
@@ -35,6 +34,8 @@ const ShowSummary = () => {
         setShow(result.data);
       } catch (err) {
         console.log(err);
+      } finally {
+        toast.dismiss(loadingToast);
       }
     };
 
@@ -49,6 +50,12 @@ const ShowSummary = () => {
     setOpenModal('default');
   };
 
+  const resetForm = () => {
+    setUserName('');
+    setUserEmail('');
+    setUserPhone('');
+  };
+
   const formSubmitHandler = () => {
     if (
       userName?.length === 0 ||
@@ -58,6 +65,10 @@ const ShowSummary = () => {
       return toast.error('All fields are required!');
     }
 
+    if (!userEmail.includes('@')) return toast.error('Enter a valid email.');
+    if (userPhone.length < 10)
+      return toast.error('Enter a 10-digit phone number.');
+
     localStorage.setItem(
       'movieBooking',
       JSON.stringify({
@@ -66,17 +77,21 @@ const ShowSummary = () => {
         phone: userPhone,
       })
     );
+    resetForm();
     toast.success('Ticket Booked');
     setOpenModal(undefined);
     console.log('form submitted');
   };
 
+  const modalCloseHandler = () => {
+    setOpenModal(undefined);
+    toast.dismiss();
+    resetForm();
+  };
+
   return (
     <React.Fragment>
-      <Modal
-        show={openModal === 'default'}
-        onClose={() => setOpenModal(undefined)}
-      >
+      <Modal show={openModal === 'default'} onClose={modalCloseHandler}>
         <Modal.Header>Book Your Ticket</Modal.Header>
         <Modal.Body>
           <div>
@@ -135,7 +150,10 @@ const ShowSummary = () => {
           >
             Book
           </button>
-          <button className="px-3 py-1.5 bg-red-500 text-white rounded-md">
+          <button
+            onClick={modalCloseHandler}
+            className="px-3 py-1.5 bg-red-500 text-white rounded-md"
+          >
             Cancel
           </button>
         </Modal.Footer>
