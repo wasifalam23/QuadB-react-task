@@ -1,5 +1,4 @@
 import React from 'react';
-import Container from '../layouts/Container';
 import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
